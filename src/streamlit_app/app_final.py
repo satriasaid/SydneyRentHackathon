@@ -23,218 +23,281 @@ st.set_page_config(
     layout="wide"
 )
 
-# FIXED CSS - Proper selectors, no global overrides
+# Beautiful, modern CSS - Easy on the eyes
 st.markdown("""
     <style>
-    /* Hide Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    /* Clean white background */
+    /* === DESIGN SYSTEM === */
+    :root {
+        --emerald-50: #ecfdf5;
+        --emerald-100: #d1fae5;
+        --emerald-500: #10b981;
+        --emerald-600: #059669;
+        --emerald-700: #047857;
+        --slate-50: #f8fafc;
+        --slate-100: #f1f5f9;
+        --slate-200: #e2e8f0;
+        --slate-700: #334155;
+        --slate-900: #0f172a;
+    }
+
+    /* === BASE === */
+    #MainMenu, footer, header {visibility: hidden;}
+
     .main {
-        background-color: #ffffff;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: linear-gradient(to bottom, var(--slate-50) 0%, #ffffff 50%);
+        padding: 0 !important;
     }
 
-    /* Hero section - Green with white text */
-    .hero-box {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        padding: 3rem;
-        border-radius: 20px;
+    .block-container {
+        padding: 3rem 2rem !important;
+        max-width: 1400px;
+    }
+
+    /* === HERO === */
+    .hero {
+        background: linear-gradient(135deg, var(--emerald-600) 0%, var(--emerald-700) 100%);
+        padding: 4rem 3rem;
+        border-radius: 24px;
         text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4);
+        margin: -1rem 0 3rem;
+        box-shadow: 0 20px 60px rgba(5, 150, 105, 0.3);
+        position: relative;
+        overflow: hidden;
     }
 
-    .hero-box h1 {
-        color: #ffffff !important;
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .hero * {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero h1 {
+        color: white !important;
         font-size: 3.5rem !important;
         font-weight: 800 !important;
         margin: 1rem 0 !important;
+        letter-spacing: -0.02em;
+        line-height: 1.1 !important;
     }
 
-    .hero-box p {
-        color: #ffffff !important;
+    .hero p {
+        color: rgba(255,255,255,0.95) !important;
         font-size: 1.25rem !important;
-        opacity: 0.95;
+        line-height: 1.6;
+        max-width: 700px;
+        margin: 0.75rem auto !important;
     }
 
-    .hero-box .badge {
-        background: rgba(255,255,255,0.25);
-        color: #ffffff !important;
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
-        display: inline-block;
-        font-weight: 700;
+    .badge {
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        color: white !important;
+        padding: 0.5rem 1.25rem;
+        border-radius: 100px;
         font-size: 0.75rem;
-        letter-spacing: 1px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
+        display: inline-block;
         margin-bottom: 1rem;
+        border: 1px solid rgba(255,255,255,0.3);
     }
 
-    /* Section headers - Dark and visible */
-    .main h2 {
-        color: #1f2937 !important;
-        font-size: 2rem !important;
+    /* === TYPOGRAPHY === */
+    h1, h2, h3 {
+        font-family: 'Inter', sans-serif !important;
+        color: var(--slate-900) !important;
         font-weight: 700 !important;
-        margin-top: 2rem !important;
+        letter-spacing: -0.01em;
+    }
+
+    h2 {
+        font-size: 2.25rem !important;
+        margin: 2.5rem 0 1.5rem !important;
+    }
+
+    h3 {
+        font-size: 1.5rem !important;
         margin-bottom: 1rem !important;
     }
 
-    .main h3 {
-        color: #374151 !important;
-        font-size: 1.5rem !important;
-        font-weight: 600 !important;
+    p, label, div {
+        color: var(--slate-700);
+        line-height: 1.7;
     }
 
-    /* Markdown text - Dark and readable */
-    .main .stMarkdown {
-        color: #374151;
+    /* === CARDS === */
+    .summary-card {
+        background: linear-gradient(135deg, var(--emerald-50) 0%, #ffffff 100%);
+        border: 2px solid var(--emerald-100);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
     }
 
-    /* Info card */
-    .info-card {
-        background: #f0fdf4;
-        border: 2px solid #86efac;
-        border-radius: 15px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-    }
-
-    .info-card h3 {
-        color: #047857 !important;
+    .summary-card h3 {
+        color: var(--emerald-700) !important;
         margin-top: 0 !important;
-    }
-
-    .info-card p, .info-card strong {
-        color: #1f2937 !important;
-    }
-
-    /* Button - Large and green */
-    .stButton > button {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-        color: #ffffff !important;
         font-size: 1.25rem !important;
-        font-weight: 700 !important;
-        padding: 1rem 3rem !important;
-        border-radius: 50px !important;
-        border: none !important;
-        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.5) !important;
     }
 
-    .stButton > button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.6) !important;
+    .summary-card p, .summary-card strong {
+        color: var(--slate-700) !important;
+        font-size: 1.05rem;
     }
 
-    /* Metrics - HUGE */
-    [data-testid="stMetricValue"] {
-        font-size: 3rem !important;
-        font-weight: 800 !important;
-        color: #1f2937 !important;
+    /* === INPUTS === */
+    .stSlider label, .stSelectbox label, .stNumberInput label {
+        color: var(--slate-900) !important;
+        font-weight: 600 !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 0.5rem !important;
     }
 
-    [data-testid="stMetricLabel"] {
-        font-size: 1rem !important;
-        font-weight: 700 !important;
-        color: #6b7280 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    [data-testid="stMetricDelta"] {
-        font-size: 0.875rem !important;
-    }
-
-    /* Slider - Keep Streamlit defaults but style the value */
     .stSlider {
-        padding: 1.5rem 0;
+        padding: 1.25rem 0;
     }
 
     .stSlider > div > div > div > div {
-        background-color: #10b981 !important;
+        background: var(--emerald-500) !important;
     }
 
-    /* DON'T override slider labels - let Streamlit handle them */
-
-    /* Select boxes - Clear styling */
-    .stSelectbox label {
-        color: #1f2937 !important;
-        font-weight: 600 !important;
-        font-size: 1rem !important;
-    }
-
-    .stSelectbox > div > div {
-        border: 2px solid #d1d5db !important;
-        border-radius: 10px !important;
-        background: #ffffff !important;
-    }
-
-    /* Number input */
-    .stNumberInput label {
-        color: #1f2937 !important;
-        font-weight: 600 !important;
-        font-size: 1rem !important;
-    }
-
+    .stSelectbox > div > div,
     .stNumberInput > div > div > input {
-        border: 2px solid #d1d5db !important;
-        border-radius: 10px !important;
-        background: #ffffff !important;
-        color: #1f2937 !important;
-        font-size: 1rem !important;
+        border: 2px solid var(--slate-200) !important;
+        border-radius: 12px !important;
+        background: white !important;
+        font-size: 1.05rem !important;
+        transition: all 0.2s ease !important;
     }
 
-    /* Tabs */
+    .stSelectbox > div > div:hover,
+    .stNumberInput > div > div > input:hover {
+        border-color: var(--emerald-300) !important;
+    }
+
+    .stSelectbox > div > div:focus-within,
+    .stNumberInput > div > div > input:focus {
+        border-color: var(--emerald-500) !important;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+    }
+
+    /* === BUTTON === */
+    .stButton > button {
+        background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%) !important;
+        color: white !important;
+        font-size: 1.125rem !important;
+        font-weight: 700 !important;
+        padding: 1rem 2.5rem !important;
+        border-radius: 100px !important;
+        border: none !important;
+        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3) !important;
+        transition: all 0.3s ease !important;
+        letter-spacing: 0.3px;
+    }
+
+    .stButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .stButton > button:active {
+        transform: translateY(0) !important;
+    }
+
+    /* === METRICS === */
+    [data-testid="stMetricValue"] {
+        font-size: 3rem !important;
+        font-weight: 800 !important;
+        color: var(--slate-900) !important;
+        letter-spacing: -0.02em;
+    }
+
+    [data-testid="stMetricLabel"] {
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        color: var(--slate-600) !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+
+    [data-testid="stMetricDelta"] {
+        font-size: 1rem !important;
+        font-weight: 600;
+    }
+
+    /* === TABS === */
     .stTabs [data-baseweb="tab-list"] {
-        background: #f3f4f6;
-        padding: 0.75rem;
-        border-radius: 15px;
+        background: var(--slate-100);
+        padding: 0.5rem;
+        border-radius: 16px;
         gap: 0.5rem;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
     }
 
     .stTabs [data-baseweb="tab"] {
-        border-radius: 10px;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
+        border-radius: 12px;
+        padding: 0.875rem 2rem;
+        font-size: 1rem;
         font-weight: 600;
-        color: #6b7280;
+        color: var(--slate-600);
+        transition: all 0.2s ease;
+    }
+
+    .stTabs [data-baseweb="tab"]:hover {
+        background: rgba(255,255,255,0.5);
     }
 
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-        color: #ffffff !important;
+        background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%) !important;
+        color: white !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
     }
 
-    /* Success/Info messages */
+    /* === ALERTS === */
     .stSuccess {
-        background: #d1fae5 !important;
-        border: 2px solid #10b981 !important;
-        border-radius: 10px !important;
-        padding: 1rem !important;
+        background: var(--emerald-50) !important;
+        border: 2px solid var(--emerald-200) !important;
+        border-radius: 12px !important;
+        padding: 1rem 1.25rem !important;
     }
 
     .stSuccess p {
-        color: #065f46 !important;
-        font-weight: 600 !important;
+        color: var(--emerald-800) !important;
+        font-weight: 500 !important;
     }
 
     .stInfo {
         background: #dbeafe !important;
-        border: 2px solid #3b82f6 !important;
-        border-radius: 10px !important;
-        padding: 1rem !important;
+        border: 2px solid #93c5fd !important;
+        border-radius: 12px !important;
+        padding: 1rem 1.25rem !important;
     }
 
     .stInfo p {
         color: #1e40af !important;
+        font-weight: 500 !important;
     }
 
     .stError {
         background: #fee2e2 !important;
-        border: 2px solid #ef4444 !important;
-        border-radius: 10px !important;
-        padding: 1rem !important;
+        border: 2px solid #fca5a5 !important;
+        border-radius: 12px !important;
+        padding: 1rem 1.25rem !important;
     }
 
     .stError p {
@@ -242,9 +305,20 @@ st.markdown("""
         font-weight: 600 !important;
     }
 
-    /* Dataframe */
+    /* === DATAFRAME === */
     .dataframe {
         font-size: 1rem;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+
+    /* === SECTION DIVIDER === */
+    hr {
+        border: none;
+        height: 2px;
+        background: linear-gradient(to right, transparent, var(--slate-200), transparent);
+        margin: 2rem 0;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -288,11 +362,11 @@ def predict_rent(bedrooms, bathrooms, suburb, property_type, floor_level, flats_
 def main():
     # HERO
     st.markdown("""
-        <div class="hero-box">
-            <div class="badge">🤖 AI-POWERED</div>
-            <h1>🏠 Sydney Rent Estimator</h1>
+        <div class="hero">
+            <div class="badge">🤖 AI-POWERED PREDICTION</div>
+            <h1>Sydney Rent Estimator</h1>
             <p>Get instant weekly rent estimates for City of Sydney properties</p>
-            <p style="font-size: 1rem; margin-top: 0.5rem;">Powered by 6 ML models • 95,000+ training leases • 78% accuracy</p>
+            <p style="font-size: 1.125rem; margin-top: 0.75rem;">Powered by 6 ML models • 95,000+ training leases • 78% accuracy</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -380,7 +454,7 @@ def main():
                 st.info(f"ℹ️ Generated using {best_model_name.replace('_', ' ').title()} model (R² = 0.782)")
 
         with col2:
-            st.markdown('<div class="info-card">', unsafe_allow_html=True)
+            st.markdown('<div class="summary-card">', unsafe_allow_html=True)
             st.markdown("### 📋 Property Summary")
             st.markdown(f"""
 **Location**
@@ -390,12 +464,10 @@ def main():
 {property_type.title()}
 
 **Size**
-{bedrooms} bedroom(s)
-{bathrooms} bathroom(s)
+{bedrooms} bedroom(s), {bathrooms} bathroom(s)
 
 **Building**
-Floor {floor_level}
-{flats_in_building} total flats
+Floor {floor_level}, {flats_in_building} total flats
             """)
             st.markdown('</div>', unsafe_allow_html=True)
 
