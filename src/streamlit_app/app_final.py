@@ -66,8 +66,8 @@ h3 { font-size: 1.15rem !important; margin: 0.5rem 0 1rem !important; }
 .hero {
     background: var(--teal);
     border-radius: 18px;
-    padding: 2.75rem 3rem 2.5rem;
-    margin: -0.5rem 0 1.5rem;
+    padding: 2rem 2.5rem 1.8rem;
+    margin: -0.5rem 0 1rem;
     position: relative;
     overflow: clip;
     box-shadow: 0 18px 38px var(--shadow);
@@ -83,8 +83,8 @@ h3 { font-size: 1.15rem !important; margin: 0.5rem 0 1rem !important; }
     border-radius: 50%;
 }
 .hero * { position: relative; z-index: 1; }
-.hero h1 { color: var(--surface) !important; max-width: 650px; margin: 0.7rem 0 0.8rem !important; overflow-wrap: break-word; min-width: 0; }
-.hero p { color: rgba(255,255,255,0.84) !important; font-size: 1.05rem !important; margin: 0.35rem 0 !important; }
+.hero h1 { color: var(--surface) !important; max-width: 650px; margin: 0.55rem 0 0.55rem !important; overflow-wrap: break-word; min-width: 0; }
+.hero p { color: rgba(255,255,255,0.84) !important; font-size: 1rem !important; margin: 0.25rem 0 !important; }
 .badge {
     display: inline-block;
     color: var(--teal) !important;
@@ -97,8 +97,10 @@ h3 { font-size: 1.15rem !important; margin: 0.5rem 0 1rem !important; }
 }
 
 /* Model status */
-.stAlert { border-radius: 10px !important; border: 1px solid var(--line) !important; background: var(--surface) !important; }
-[data-testid="stAlert"] p { color: var(--ink) !important; }
+.model-status { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; margin: 0 0 1rem; padding: 0.7rem 0.9rem; background: var(--teal-soft); border: 1px solid #c6e1dd; border-radius: 9px; color: var(--teal) !important; font-size: 0.82rem; }
+.model-status span { color: var(--teal) !important; }
+.model-status span + span::before { content: "—"; margin-right: 0.65rem; color: var(--teal); }
+.status-label { font-weight: 800; }
 
 /* Tabs */
 .stTabs [data-baseweb="tab-list"] { gap: 0.35rem; border-bottom: 1px solid var(--line); background: transparent; }
@@ -228,7 +230,13 @@ def main():
         st.error("⚠️ Could not load models")
         st.stop()
 
-    st.success(f"Model ready — {best_model_name.replace('_', ' ').title()} — average error ${comparison[best_model_name]['mae']:.2f}")
+    st.markdown(f"""
+        <div class="model-status">
+            <span class="status-label">Model ready</span>
+            <span>{best_model_name.replace('_', ' ').title()}</span>
+            <span>Average error ${comparison[best_model_name]['mae']:.2f}</span>
+        </div>
+    """, unsafe_allow_html=True)
 
     # TABS
     tab1, tab2 = st.tabs(["Estimate rent", "Model performance"])
