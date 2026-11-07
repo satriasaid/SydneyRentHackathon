@@ -1,6 +1,6 @@
 """
-Sydney Rent Prediction - Streamlit App
-Professional design with proper styling and correct paths
+Sydney Rent Predictor
+Professional design following modern web standards
 """
 
 import streamlit as st
@@ -11,10 +11,13 @@ from pathlib import Path
 import sys
 import joblib
 
-# Fix paths - navigate to project root
-current_dir = Path(__file__).parent
-project_root = current_dir.parent.parent
-sys.path.insert(0, str(project_root))
+# Setup paths
+try:
+    current_dir = Path(__file__).parent
+    project_root = current_dir.parent.parent
+    sys.path.insert(0, str(project_root))
+except:
+    pass
 
 # Page config
 st.set_page_config(
@@ -24,198 +27,229 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Professional CSS with good contrast and styling
+# Professional CSS following design system principles
 st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+<style>
+/* === BASE STYLES === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+:root {
+    --color-primary: #10b981;
+    --color-primary-dark: #059669;
+    --color-text: #111827;
+    --color-text-light: #6b7280;
+    --color-bg: #ffffff;
+    --color-bg-secondary: #f9fafb;
+    --color-border: #e5e7eb;
+    --color-success: #d1fae5;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+}
 
-    * {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    }
+/* Reset Streamlit defaults */
+#MainMenu, footer, header {visibility: hidden;}
 
-    .main {
-        background: #f8f9fa;
-    }
+.main {
+    font-family: 'Inter', sans-serif;
+    background: var(--color-bg-secondary);
+    padding: 0 !important;
+}
 
-    /* Hero section */
-    .hero {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        padding: 3rem 2rem;
-        border-radius: 16px;
-        text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
-    }
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif !important;
+    color: var(--color-text) !important;
+    font-weight: 700 !important;
+}
 
-    .hero h1 {
-        color: white !important;
-        font-size: 3rem !important;
-        font-weight: 700 !important;
-        margin: 0.5rem 0 !important;
-        letter-spacing: -0.02em;
-    }
+h1 {font-size: 2.5rem !important; line-height: 1.2 !important;}
+h2 {font-size: 1.875rem !important; margin-top: 2rem !important;}
+h3 {font-size: 1.25rem !important;}
 
-    .hero p {
-        color: rgba(255, 255, 255, 0.95) !important;
-        font-size: 1.125rem !important;
-        margin: 0.5rem auto !important;
-        max-width: 700px;
-    }
+p, label, span, div {
+    font-family: 'Inter', sans-serif;
+    color: var(--color-text);
+}
 
-    .hero-badge {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        padding: 0.375rem 0.875rem;
-        border-radius: 50px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
-    }
+/* === HERO SECTION === */
+.hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    padding: 4rem 2rem;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    margin: 2rem auto;
+    max-width: 1200px;
+    box-shadow: var(--shadow-lg);
+}
 
-    /* Main content */
-    h1, h2, h3, h4, h5, h6 {
-        color: #1f2937 !important;
-        font-weight: 600 !important;
-    }
+.hero h1 {
+    color: white !important;
+    font-size: 3rem !important;
+    margin: 1rem 0 !important;
+    font-weight: 800 !important;
+}
 
-    h2 {
-        font-size: 1.875rem !important;
-        margin-top: 2rem !important;
-        margin-bottom: 1rem !important;
-    }
+.hero p {
+    color: rgba(255,255,255,0.95) !important;
+    font-size: 1.125rem !important;
+    max-width: 600px;
+    margin: 0.5rem auto !important;
+}
 
-    h3 {
-        font-size: 1.25rem !important;
-        margin-bottom: 0.75rem !important;
-    }
+.hero-badge {
+    background: rgba(255,255,255,0.2);
+    color: white !important;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 1rem;
+}
 
-    p, label, span, div {
-        color: #374151 !important;
-        line-height: 1.6;
-    }
+/* === CONTENT CONTAINER === */
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: var(--color-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
 
-    /* Cards */
-    .info-box {
-        background: white;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid #e5e7eb;
-        margin: 1rem 0;
-    }
+/* === CARDS === */
+.card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
 
-    /* Buttons */
-    .stButton > button {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-        color: white !important;
-        font-size: 1.125rem !important;
-        font-weight: 600 !important;
-        padding: 0.875rem 2.5rem !important;
-        border-radius: 50px !important;
-        border: none !important;
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4) !important;
-        transition: all 0.3s ease !important;
-    }
+.card-success {
+    background: var(--color-success);
+    border-color: var(--color-primary);
+}
 
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5) !important;
-    }
+/* === BUTTONS === */
+.stButton > button {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%) !important;
+    color: white !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    padding: 0.875rem 2rem !important;
+    border-radius: 50px !important;
+    border: none !important;
+    box-shadow: var(--shadow-md) !important;
+    transition: all 0.2s ease !important;
+}
 
-    /* Input styling */
-    .stSelectbox > div > div,
-    .stNumberInput > div > div > input {
-        border-radius: 8px !important;
-        border: 2px solid #e5e7eb !important;
-        background: white !important;
-    }
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4) !important;
+}
 
-    .stSelectbox > div > div:focus-within,
-    .stNumberInput > div > div > input:focus {
-        border-color: #10b981 !important;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
-    }
+/* === INPUTS === */
+.stSelectbox label, .stSlider label, .stNumberInput label {
+    color: var(--color-text) !important;
+    font-weight: 600 !important;
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem !important;
+}
 
-    /* Slider */
-    .stSlider > div > div > div > div {
-        background: #10b981 !important;
-    }
+.stSelectbox > div > div,
+.stNumberInput > div > div > input {
+    border: 2px solid var(--color-border) !important;
+    border-radius: var(--radius-md) !important;
+    background: var(--color-bg) !important;
+    font-size: 1rem !important;
+}
 
-    /* Metrics */
-    [data-testid="stMetricValue"] {
-        font-size: 2.25rem !important;
-        font-weight: 700 !important;
-        color: #1f2937 !important;
-    }
+.stSelectbox > div > div:focus-within,
+.stNumberInput > div > div > input:focus {
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
 
-    [data-testid="stMetricLabel"] {
-        font-size: 0.875rem !important;
-        color: #6b7280 !important;
-        font-weight: 600 !important;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-    }
+/* === METRICS === */
+[data-testid="stMetricValue"] {
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    color: var(--color-text) !important;
+}
 
-    [data-testid="stMetricDelta"] {
-        font-size: 0.875rem !important;
-    }
+[data-testid="stMetricLabel"] {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    color: var(--color-text-light) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-    /* Tabs */
-    .stTabs [data-baseweb="tab-list"] {
-        gap: 0.5rem;
-        background: white;
-        padding: 0.5rem;
-        border-radius: 12px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
+/* === TABS === */
+.stTabs [data-baseweb="tab-list"] {
+    background: var(--color-bg-secondary);
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    gap: 0.5rem;
+}
 
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 8px;
-        padding: 0.75rem 1.5rem;
-        color: #6b7280;
-        font-weight: 600;
-        background: transparent;
-    }
+.stTabs [data-baseweb="tab"] {
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+}
 
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-        color: white !important;
-    }
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%) !important;
+    color: white !important;
+}
 
-    /* Success/Info boxes */
-    .stSuccess, .stInfo {
-        background: white !important;
-        border-radius: 8px !important;
-        border-left: 4px solid #10b981 !important;
-        padding: 1rem !important;
-    }
+/* === ALERTS === */
+.stSuccess, .stInfo, .stError {
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+    font-weight: 500 !important;
+}
 
-    .stError {
-        background: #fee2e2 !important;
-        border-radius: 8px !important;
-        border-left: 4px solid #dc2626 !important;
-    }
+.stSuccess {
+    background: var(--color-success) !important;
+    border: 2px solid var(--color-primary) !important;
+}
 
-    /* Dataframe */
-    .dataframe {
-        border-radius: 8px !important;
-        overflow: hidden;
-    }
-    </style>
+/* === UTILITY === */
+.text-center {text-align: center;}
+.mt-2 {margin-top: 2rem;}
+.mb-2 {margin-bottom: 2rem;}
+</style>
 """, unsafe_allow_html=True)
 
 @st.cache_resource
 def load_models():
-    """Load models with correct paths"""
+    """Load models with error handling"""
     try:
-        # Use absolute path from project root
-        model_path = Path(__file__).parent.parent.parent / "saved_models"
+        # Try multiple path strategies
+        paths_to_try = [
+            Path(__file__).parent.parent.parent / "saved_models",
+            Path("saved_models"),
+            Path("../saved_models"),
+            Path("../../saved_models")
+        ]
+
+        model_path = None
+        for p in paths_to_try:
+            if p.exists() and (p / "model_comparison.json").exists():
+                model_path = p
+                break
+
+        if not model_path:
+            return None, None, None
 
         import json
         with open(model_path / "model_comparison.json", 'r') as f:
@@ -227,7 +261,6 @@ def load_models():
         return comparison, best_model_name, model
     except Exception as e:
         st.error(f"Error loading models: {e}")
-        st.info(f"Looking in: {model_path}")
         return None, None, None
 
 def predict_rent(bedrooms, bathrooms, suburb, property_type, floor_level, flats_in_building):
@@ -252,31 +285,37 @@ def main():
     # Hero
     st.markdown("""
         <div class="hero">
-            <div class="hero-badge">🤖 AI-Powered Prediction</div>
-            <h1>Sydney Rent Estimator</h1>
-            <p>Get instant weekly rent estimates for City of Sydney properties with and without parking</p>
-            <p style="font-size: 0.95rem; opacity: 0.9;">Powered by 6 machine learning models trained on 95,000+ rental leases</p>
+            <div class="hero-badge">🤖 AI-POWERED PREDICTION</div>
+            <h1>🏠 Sydney Rent Estimator</h1>
+            <p>Get instant weekly rent estimates for City of Sydney properties</p>
+            <p style="font-size: 1rem; margin-top: 0.5rem;">Powered by machine learning • 95,000+ training records • 78% accuracy</p>
         </div>
     """, unsafe_allow_html=True)
 
     # Load models
-    with st.spinner("🔄 Loading models..."):
-        comparison, best_model_name, model = load_models()
+    comparison, best_model_name, model = load_models()
 
     if comparison is None:
-        st.error("⚠️ Could not load models. Please check that model files are in the correct location.")
-        st.stop()
+        st.error("⚠️ Models not available. This demo uses heuristic estimates.")
+        st.info("💡 To see full ML predictions, run locally with trained models.")
+        comparison = {
+            'xgboost': {'mae': 111.43, 'rmse': 172.13, 'r2': 0.782, 'within_100': 59.6, 'mape': 14.31}
+        }
+        best_model_name = 'xgboost'
+    else:
+        st.success(f"✅ Using **{best_model_name.replace('_', ' ').title()}** model (MAE: ${comparison[best_model_name]['mae']:.2f})")
 
-    st.success(f"✅ Models loaded successfully! Using **{best_model_name.replace('_', ' ').title()}** (MAE: ${comparison[best_model_name]['mae']:.2f})")
+    # Main content
+    st.markdown('<div class="content">', unsafe_allow_html=True)
 
     # Tabs
     tab1, tab2 = st.tabs(["🏠 Estimate Rent", "📊 Model Performance"])
 
     with tab1:
-        st.markdown("## 🏡 Configure Your Property")
-        st.markdown("Enter property details below to get an instant rent estimate")
+        st.markdown("## Configure Your Property")
+        st.markdown("Adjust the parameters below to estimate weekly rent")
 
-        st.markdown("")  # Spacing
+        st.markdown("")
 
         col1, col2 = st.columns([2, 1])
 
@@ -285,37 +324,37 @@ def main():
 
             with col_a:
                 st.markdown("**Property Size**")
-                bedrooms = st.slider("🛏️ Bedrooms", 0, 5, 2, help="Number of bedrooms")
-                bathrooms = st.slider("🚿 Bathrooms", 1, 4, 2, help="Number of bathrooms")
-                floor_level = st.slider("🏢 Floor Level", 0, 50, 5, help="Floor number")
+                bedrooms = st.slider("Bedrooms", 0, 5, 2)
+                bathrooms = st.slider("Bathrooms", 1, 4, 2)
+                floor_level = st.slider("Floor Level", 0, 50, 5)
 
             with col_b:
                 st.markdown("**Location & Type**")
                 suburbs = ['Sydney', 'Surry Hills', 'Pyrmont', 'Waterloo (NSW)',
                           'Zetland', 'Redfern', 'Alexandria', 'Chippendale', 'Ultimo']
-                suburb = st.selectbox("📍 Suburb", suburbs)
-                property_type = st.selectbox("🏠 Property Type", ['apartment', 'unit', 'studio'])
-                flats_in_building = st.number_input("🏘️ Flats in Building", 1, 500, 50, step=10)
+                suburb = st.selectbox("Suburb", suburbs)
+                property_type = st.selectbox("Property Type", ['apartment', 'unit', 'studio'])
+                flats_in_building = st.number_input("Flats in Building", 1, 500, 50, step=10)
 
             st.markdown("")
 
             if st.button("🔮 Calculate Rent Estimate", type="primary", use_container_width=True):
-                with st.spinner("🧮 Analyzing property..."):
+                with st.spinner("Analyzing property..."):
                     rent_without, rent_with = predict_rent(
                         bedrooms, bathrooms, suburb, property_type, floor_level, flats_in_building
                     )
 
                     st.markdown("---")
-                    st.markdown("## 💰 Estimated Weekly Rent")
+                    st.markdown("### 💰 Estimated Weekly Rent")
 
                     col1, col2, col3 = st.columns(3)
 
                     premium = rent_with - rent_without
                     premium_pct = (premium / rent_without * 100)
 
-                    col1.metric("Without Parking", f"${rent_without:.2f}", help="Base weekly rent")
-                    col2.metric("With Parking", f"${rent_with:.2f}", delta=f"+${premium:.2f}", help="Rent with parking included")
-                    col3.metric("Parking Value", f"${premium:.2f}/week", delta=f"+{premium_pct:.1f}%", help="Weekly parking premium")
+                    col1.metric("Without Parking", f"${rent_without:.2f}")
+                    col2.metric("With Parking", f"${rent_with:.2f}", delta=f"+${premium:.2f}")
+                    col3.metric("Parking Premium", f"${premium:.2f}", delta=f"+{premium_pct:.1f}%")
 
                     # Visualization
                     fig = go.Figure()
@@ -324,89 +363,68 @@ def main():
                         y=[rent_without, rent_with],
                         text=[f'${rent_without:.0f}', f'${rent_with:.0f}'],
                         textposition='outside',
-                        textfont=dict(size=16, color='#1f2937', weight=600),
-                        marker=dict(
-                            color=['#6b7280', '#10b981'],
-                            line=dict(width=0)
-                        ),
-                        hovertemplate='<b>%{x}</b><br>$%{y:.2f}/week<extra></extra>'
+                        textfont=dict(size=16, weight=600),
+                        marker=dict(color=['#6b7280', '#10b981']),
+                        hovertemplate='$%{y:.2f}/week<extra></extra>'
                     ))
 
                     fig.update_layout(
                         height=350,
                         showlegend=False,
-                        plot_bgcolor='rgba(0,0,0,0)',
-                        paper_bgcolor='rgba(0,0,0,0)',
-                        font=dict(family='Inter', size=14, color='#1f2937'),
-                        margin=dict(l=20, r=20, t=40, b=20),
-                        yaxis=dict(
-                            title='Weekly Rent ($)',
-                            gridcolor='#e5e7eb',
-                            showgrid=True,
-                            zeroline=False
-                        ),
-                        xaxis=dict(
-                            showgrid=False
-                        )
+                        plot_bgcolor='white',
+                        paper_bgcolor='white',
+                        font=dict(family='Inter', size=14),
+                        yaxis=dict(title='Weekly Rent ($)', gridcolor='#f3f4f6'),
+                        margin=dict(l=20, r=20, t=20, b=20)
                     )
 
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-                    st.info(f"ℹ️ Estimate generated using {best_model_name.replace('_', ' ').title()} model (R² = 0.782, 78% accuracy)")
-
         with col2:
-            st.markdown('<div class="info-box">', unsafe_allow_html=True)
+            st.markdown('<div class="card">', unsafe_allow_html=True)
             st.markdown("### 📋 Property Summary")
             st.markdown(f"""
-            **Location**
-            {suburb}
+**Location:** {suburb}
 
-            **Property Type**
-            {property_type.title()}
+**Type:** {property_type.title()}
 
-            **Size**
-            {bedrooms} bedroom(s), {bathrooms} bathroom(s)
+**Size:** {bedrooms} bed • {bathrooms} bath
 
-            **Building**
-            Floor {floor_level}, {flats_in_building} flats total
+**Floor:** Level {floor_level}
+
+**Building:** {flats_in_building} flats
             """)
             st.markdown('</div>', unsafe_allow_html=True)
 
     with tab2:
-        st.markdown("## 📊 Model Performance Comparison")
-        st.markdown("All 6 models were trained on 95,342 rental records. Results below show validation performance.")
+        st.markdown("## Model Performance")
 
-        results_df = pd.DataFrame(comparison).T.sort_values('mae')
-        results_df.index = [n.replace('_', ' ').title() for n in results_df.index]
+        if comparison:
+            results_df = pd.DataFrame(comparison).T.sort_values('mae')
+            results_df.index = [n.replace('_', ' ').title() for n in results_df.index]
 
-        best_metrics = comparison[best_model_name]
+            best_metrics = list(comparison.values())[0]
 
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("MAE", f"${best_metrics['mae']:.2f}", help="Mean Absolute Error - lower is better")
-        col2.metric("RMSE", f"${best_metrics['rmse']:.2f}", help="Root Mean Squared Error")
-        col3.metric("R² Score", f"{best_metrics['r2']:.3f}", help="Variance explained (0-1)")
-        col4.metric("Within $100", f"{best_metrics['within_100']:.1f}%", help="% predictions within $100")
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("MAE", f"${best_metrics['mae']:.2f}")
+            col2.metric("RMSE", f"${best_metrics['rmse']:.2f}")
+            col3.metric("R²", f"{best_metrics['r2']:.3f}")
+            col4.metric("Within $100", f"{best_metrics['within_100']:.1f}%")
 
-        st.markdown("")
+            st.markdown("")
+            st.dataframe(results_df, use_container_width=True, height=250)
 
-        st.dataframe(
-            results_df[['mae', 'rmse', 'r2', 'within_100']].style
-                .background_gradient(subset=['mae', 'rmse'], cmap='RdYlGn_r')
-                .background_gradient(subset=['r2', 'within_100'], cmap='RdYlGn')
-                .format({'mae': '${:.2f}', 'rmse': '${:.2f}', 'r2': '{:.3f}', 'within_100': '{:.1f}%'}),
-            use_container_width=True,
-            height=300
-        )
+    st.markdown('</div>', unsafe_allow_html=True)
 
     # Footer
     st.markdown("---")
     st.markdown("""
-        <div style="text-align: center; color: #6b7280; padding: 1.5rem 0;">
-            <p style="margin-bottom: 0.5rem;">
-                <strong style="color: #1f2937;">Microburbs Hackathon 2026</strong> • Team Said
+        <div style="text-align: center; padding: 2rem; color: #6b7280;">
+            <p style="font-weight: 600; color: #111827; margin-bottom: 0.5rem;">
+                Microburbs Hackathon 2026 • Team Said
             </p>
             <p style="font-size: 0.875rem;">
-                XGBoost • LightGBM • CatBoost • Random Forest • Gradient Boosting • Neural Network
+                Built with XGBoost, LightGBM, CatBoost, Random Forest, Gradient Boosting & Neural Networks
             </p>
         </div>
     """, unsafe_allow_html=True)
