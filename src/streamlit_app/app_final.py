@@ -150,6 +150,10 @@ button:focus-visible, input:focus-visible, [role="slider"]:focus-visible, [role=
 }
 .summary-card h3 { color: var(--teal) !important; }
 .summary-card p { margin: 0.35rem 0 0.9rem; }
+.summary-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); color: var(--muted); }
+.summary-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.summary-row span { color: var(--muted); }
+.summary-row strong { color: var(--ink); text-align: right; font-weight: 700; }
 [data-testid="stMetric"] { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; }
 [data-testid="stMetricValue"] { color: var(--ink) !important; font-size: clamp(1.55rem, 3vw, 2.45rem) !important; font-weight: 800 !important; }
 [data-testid="stMetricLabel"] { color: var(--muted) !important; font-size: 0.76rem !important; font-weight: 700 !important; }
@@ -298,25 +302,18 @@ def main():
 
                 st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-                st.info(f"ℹ️ Generated using {best_model_name.replace('_', ' ').title()} model (R² = 0.782)")
+                st.info(f"Generated using {best_model_name.replace('_', ' ').title()} model (R² = 0.782)")
 
         with col2:
-            st.markdown('<div class="summary-card">', unsafe_allow_html=True)
-            st.markdown("### 📋 Property Summary")
             st.markdown(f"""
-**Location**
-{suburb}
-
-**Property Type**
-{property_type.title()}
-
-**Size**
-{bedrooms} bedroom(s), {bathrooms} bathroom(s)
-
-**Building**
-Floor {floor_level}, {flats_in_building} total flats
-            """)
-            st.markdown('</div>', unsafe_allow_html=True)
+                <div class="summary-card">
+                    <h3>Property summary</h3>
+                    <div class="summary-row"><span>Location</span><strong>{suburb}</strong></div>
+                    <div class="summary-row"><span>Property type</span><strong>{property_type.title()}</strong></div>
+                    <div class="summary-row"><span>Size</span><strong>{bedrooms} bedroom(s), {bathrooms} bathroom(s)</strong></div>
+                    <div class="summary-row"><span>Building</span><strong>Floor {floor_level}, {flats_in_building} total flats</strong></div>
+                </div>
+            """, unsafe_allow_html=True)
 
     with tab2:
         st.markdown("## Model performance")
