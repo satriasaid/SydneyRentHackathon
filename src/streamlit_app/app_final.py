@@ -25,302 +25,150 @@ st.set_page_config(
 
 # Beautiful, modern CSS - Easy on the eyes
 st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+<style>
+/* Hallmark · app screen · warm utility / rent intelligence */
+/* Critique: replace the dark-theme collision with a readable, task-first estimator. */
+:root {
+    --ink: #17243a;
+    --muted: #627087;
+    --paper: #fbfaf7;
+    --surface: #ffffff;
+    --surface-soft: #f2f5f7;
+    --line: #dbe2e8;
+    --accent: #e56b4d;
+    --accent-deep: #c9543a;
+    --accent-soft: #fff0eb;
+    --teal: #176b68;
+    --teal-soft: #e6f2f0;
+    --shadow: rgba(23, 36, 58, 0.08);
+}
 
-    /* === DESIGN SYSTEM === */
-    :root {
-        --emerald-50: #ecfdf5;
-        --emerald-100: #d1fae5;
-        --emerald-500: #10b981;
-        --emerald-600: #059669;
-        --emerald-700: #047857;
-        --slate-50: #f8fafc;
-        --slate-100: #f1f5f9;
-        --slate-200: #e2e8f0;
-        --slate-700: #334155;
-        --slate-900: #0f172a;
-    }
+html, body { overflow-x: clip; }
+#MainMenu, footer, header { visibility: hidden; }
+[data-testid="stAppViewContainer"], [data-testid="stHeader"] { background: var(--paper) !important; }
+[data-testid="stAppViewContainer"] * { box-sizing: border-box; }
+.block-container {
+    max-width: 1180px;
+    padding: 2.5rem 2rem 4rem !important;
+}
 
-    /* === BASE === */
-    #MainMenu, footer, header {visibility: hidden;}
+/* Type */
+[data-testid="stAppViewContainer"] p,
+[data-testid="stAppViewContainer"] label,
+[data-testid="stAppViewContainer"] div { color: var(--ink); }
+h1, h2, h3 { color: var(--ink) !important; letter-spacing: -0.035em !important; }
+h1 { font-size: clamp(2rem, 5vw, 4.25rem) !important; line-height: 0.98 !important; }
+h2 { font-size: 2rem !important; margin: 2rem 0 0.5rem !important; }
+h3 { font-size: 1.15rem !important; margin: 0.5rem 0 1rem !important; }
+[data-testid="stMarkdownContainer"] p { color: var(--muted); line-height: 1.55; }
 
-    .main {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(to bottom, var(--slate-50) 0%, #ffffff 50%);
-        padding: 0 !important;
-    }
+/* Hero: short, directional, readable in the first viewport */
+.hero {
+    background: var(--teal);
+    border-radius: 18px;
+    padding: 2.75rem 3rem 2.5rem;
+    margin: -0.5rem 0 1.5rem;
+    position: relative;
+    overflow: clip;
+    box-shadow: 0 18px 38px var(--shadow);
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: -70px;
+    bottom: -120px;
+    border: 42px solid rgba(255,255,255,0.09);
+    border-radius: 50%;
+}
+.hero * { position: relative; z-index: 1; }
+.hero h1 { color: var(--surface) !important; max-width: 650px; margin: 0.7rem 0 0.8rem !important; overflow-wrap: break-word; min-width: 0; }
+.hero p { color: rgba(255,255,255,0.84) !important; font-size: 1.05rem !important; margin: 0.35rem 0 !important; }
+.badge {
+    display: inline-block;
+    color: var(--teal) !important;
+    background: var(--surface);
+    border-radius: 999px;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
 
-    .block-container {
-        padding: 3rem 2rem !important;
-        max-width: 1400px;
-    }
+/* Model status */
+.stAlert { border-radius: 10px !important; border: 1px solid var(--line) !important; background: var(--surface) !important; }
+[data-testid="stAlert"] p { color: var(--ink) !important; }
 
-    /* === HERO === */
-    .hero {
-        background: linear-gradient(135deg, var(--emerald-600) 0%, var(--emerald-700) 100%);
-        padding: 4rem 3rem;
-        border-radius: 24px;
-        text-align: center;
-        margin: -1rem 0 3rem;
-        box-shadow: 0 20px 60px rgba(5, 150, 105, 0.3);
-        position: relative;
-        overflow: hidden;
-    }
+/* Tabs */
+.stTabs [data-baseweb="tab-list"] { gap: 0.35rem; border-bottom: 1px solid var(--line); background: transparent; }
+.stTabs [data-baseweb="tab"] { color: var(--muted); padding: 0.75rem 1rem; font-weight: 650; }
+.stTabs [data-baseweb="tab"]:hover { color: var(--ink); }
+.stTabs [aria-selected="true"] { color: var(--accent-deep) !important; border-bottom-color: var(--accent) !important; }
+.stTabs [data-baseweb="tab-highlight"] { background: var(--accent) !important; }
 
-    .hero::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-        border-radius: 50%;
-    }
+/* Inputs */
+.stSlider, .stSelectbox, .stNumberInput { margin-bottom: 0.7rem; }
+.stSlider label, .stSelectbox label, .stNumberInput label { color: var(--ink) !important; font-size: 0.82rem !important; font-weight: 700 !important; }
+.stSelectbox [data-baseweb="select"] > div,
+.stNumberInput input {
+    background: var(--surface) !important;
+    color: var(--ink) !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 9px !important;
+}
+.stSelectbox [data-baseweb="select"] > div:focus-within,
+.stNumberInput input:focus { border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-soft) !important; }
+.stSlider [data-baseweb="slider"] [role="slider"] { background: var(--accent) !important; border-color: var(--accent) !important; }
+.stSlider [data-baseweb="slider"] > div > div { background: var(--accent) !important; }
 
-    .hero * {
-        position: relative;
-        z-index: 1;
-    }
+/* Primary action */
+.stButton > button {
+    width: 100%;
+    min-height: 3.2rem;
+    background: var(--accent) !important;
+    color: var(--surface) !important;
+    border: 1px solid var(--accent) !important;
+    border-radius: 9px !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.01em;
+    box-shadow: 0 8px 18px rgba(229,107,77,0.2) !important;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease !important;
+}
+.stButton > button:hover { background: var(--accent-deep) !important; transform: translateY(-1px); box-shadow: 0 10px 22px rgba(229,107,77,0.28) !important; }
+.stButton > button:active { transform: translateY(0); }
+button:focus-visible, input:focus-visible, [role="slider"]:focus-visible, [role="tab"]:focus-visible { outline: 3px solid var(--accent) !important; outline-offset: 2px; }
 
-    .hero h1 {
-        color: white !important;
-        font-size: 3.5rem !important;
-        font-weight: 800 !important;
-        margin: 1rem 0 !important;
-        letter-spacing: -0.02em;
-        line-height: 1.1 !important;
-    }
+/* Summary and result surfaces */
+.summary-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 4px solid var(--teal);
+    border-radius: 12px;
+    padding: 1.35rem 1.5rem;
+    box-shadow: 0 10px 24px var(--shadow);
+}
+.summary-card h3 { color: var(--teal) !important; }
+.summary-card p { margin: 0.35rem 0 0.9rem; }
+[data-testid="stMetric"] { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1rem; }
+[data-testid="stMetricValue"] { color: var(--ink) !important; font-size: clamp(1.55rem, 3vw, 2.45rem) !important; font-weight: 800 !important; }
+[data-testid="stMetricLabel"] { color: var(--muted) !important; font-size: 0.76rem !important; font-weight: 700 !important; }
+[data-testid="stMetricDelta"] { color: var(--teal) !important; }
 
-    .hero p {
-        color: rgba(255,255,255,0.95) !important;
-        font-size: 1.25rem !important;
-        line-height: 1.6;
-        max-width: 700px;
-        margin: 0.75rem auto !important;
-    }
-
-    .badge {
-        background: rgba(255,255,255,0.2);
-        backdrop-filter: blur(10px);
-        color: white !important;
-        padding: 0.5rem 1.25rem;
-        border-radius: 100px;
-        font-size: 0.75rem;
-        font-weight: 700;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        display: inline-block;
-        margin-bottom: 1rem;
-        border: 1px solid rgba(255,255,255,0.3);
-    }
-
-    /* === TYPOGRAPHY === */
-    h1, h2, h3 {
-        font-family: 'Inter', sans-serif !important;
-        color: var(--slate-900) !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.01em;
-    }
-
-    h2 {
-        font-size: 2.25rem !important;
-        margin: 2.5rem 0 1.5rem !important;
-    }
-
-    h3 {
-        font-size: 1.5rem !important;
-        margin-bottom: 1rem !important;
-    }
-
-    p, label, div {
-        color: var(--slate-700);
-        line-height: 1.7;
-    }
-
-    /* === CARDS === */
-    .summary-card {
-        background: linear-gradient(135deg, var(--emerald-50) 0%, #ffffff 100%);
-        border: 2px solid var(--emerald-100);
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
-    }
-
-    .summary-card h3 {
-        color: var(--emerald-700) !important;
-        margin-top: 0 !important;
-        font-size: 1.25rem !important;
-    }
-
-    .summary-card p, .summary-card strong {
-        color: var(--slate-700) !important;
-        font-size: 1.05rem;
-    }
-
-    /* === INPUTS === */
-    .stSlider label, .stSelectbox label, .stNumberInput label {
-        color: var(--slate-900) !important;
-        font-weight: 600 !important;
-        font-size: 0.95rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-
-    .stSlider {
-        padding: 1.25rem 0;
-    }
-
-    .stSlider > div > div > div > div {
-        background: var(--emerald-500) !important;
-    }
-
-    .stSelectbox > div > div,
-    .stNumberInput > div > div > input {
-        border: 2px solid var(--slate-200) !important;
-        border-radius: 12px !important;
-        background: white !important;
-        font-size: 1.05rem !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .stSelectbox > div > div:hover,
-    .stNumberInput > div > div > input:hover {
-        border-color: var(--emerald-300) !important;
-    }
-
-    .stSelectbox > div > div:focus-within,
-    .stNumberInput > div > div > input:focus {
-        border-color: var(--emerald-500) !important;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
-    }
-
-    /* === BUTTON === */
-    .stButton > button {
-        background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%) !important;
-        color: white !important;
-        font-size: 1.125rem !important;
-        font-weight: 700 !important;
-        padding: 1rem 2.5rem !important;
-        border-radius: 100px !important;
-        border: none !important;
-        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3) !important;
-        transition: all 0.3s ease !important;
-        letter-spacing: 0.3px;
-    }
-
-    .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4) !important;
-    }
-
-    .stButton > button:active {
-        transform: translateY(0) !important;
-    }
-
-    /* === METRICS === */
-    [data-testid="stMetricValue"] {
-        font-size: 3rem !important;
-        font-weight: 800 !important;
-        color: var(--slate-900) !important;
-        letter-spacing: -0.02em;
-    }
-
-    [data-testid="stMetricLabel"] {
-        font-size: 0.875rem !important;
-        font-weight: 600 !important;
-        color: var(--slate-600) !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 0.5rem;
-    }
-
-    [data-testid="stMetricDelta"] {
-        font-size: 1rem !important;
-        font-weight: 600;
-    }
-
-    /* === TABS === */
-    .stTabs [data-baseweb="tab-list"] {
-        background: var(--slate-100);
-        padding: 0.5rem;
-        border-radius: 16px;
-        gap: 0.5rem;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-    }
-
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 12px;
-        padding: 0.875rem 2rem;
-        font-size: 1rem;
-        font-weight: 600;
-        color: var(--slate-600);
-        transition: all 0.2s ease;
-    }
-
-    .stTabs [data-baseweb="tab"]:hover {
-        background: rgba(255,255,255,0.5);
-    }
-
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, var(--emerald-500) 0%, var(--emerald-600) 100%) !important;
-        color: white !important;
-        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-    }
-
-    /* === ALERTS === */
-    .stSuccess {
-        background: var(--emerald-50) !important;
-        border: 2px solid var(--emerald-200) !important;
-        border-radius: 12px !important;
-        padding: 1rem 1.25rem !important;
-    }
-
-    .stSuccess p {
-        color: var(--emerald-800) !important;
-        font-weight: 500 !important;
-    }
-
-    .stInfo {
-        background: #dbeafe !important;
-        border: 2px solid #93c5fd !important;
-        border-radius: 12px !important;
-        padding: 1rem 1.25rem !important;
-    }
-
-    .stInfo p {
-        color: #1e40af !important;
-        font-weight: 500 !important;
-    }
-
-    .stError {
-        background: #fee2e2 !important;
-        border: 2px solid #fca5a5 !important;
-        border-radius: 12px !important;
-        padding: 1rem 1.25rem !important;
-    }
-
-    .stError p {
-        color: #991b1b !important;
-        font-weight: 600 !important;
-    }
-
-    /* === DATAFRAME === */
-    .dataframe {
-        font-size: 1rem;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-    }
-
-    /* === SECTION DIVIDER === */
-    hr {
-        border: none;
-        height: 2px;
-        background: linear-gradient(to right, transparent, var(--slate-200), transparent);
-        margin: 2rem 0;
-    }
-    </style>
+/* Plotly/data table and footer */
+[data-testid="stDataFrame"] { border: 1px solid var(--line); border-radius: 10px; overflow: clip; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+.app-footer { border-top: 1px solid var(--line); padding-top: 1.5rem; margin-top: 2rem; }
+.app-footer p { color: var(--muted) !important; font-size: 0.85rem; }
+@media (max-width: 700px) {
+    .block-container { padding: 1.2rem 1rem 3rem !important; }
+    .hero { padding: 2rem 1.35rem; }
+    .hero h1 { font-size: 2.6rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
 """, unsafe_allow_html=True)
 
 @st.cache_resource
@@ -363,10 +211,9 @@ def main():
     # HERO
     st.markdown("""
         <div class="hero">
-            <div class="badge">🤖 AI-POWERED PREDICTION</div>
-            <h1>Sydney Rent Estimator</h1>
-            <p>Get instant weekly rent estimates for City of Sydney properties</p>
-            <p style="font-size: 1.125rem; margin-top: 0.75rem;">Powered by 6 ML models • 95,000+ training leases • 78% accuracy</p>
+            <div class="badge">Sydney rental intelligence</div>
+            <h1>Know the weekly rent before you inspect.</h1>
+            <p>Set the property details. Get a clear estimate for a City of Sydney home.</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -377,21 +224,21 @@ def main():
         st.error("⚠️ Could not load models")
         st.stop()
 
-    st.success(f"✅ Models loaded! Using **{best_model_name.replace('_', ' ').title()}** (MAE: ${comparison[best_model_name]['mae']:.2f})")
+    st.success(f"Model ready — {best_model_name.replace('_', ' ').title()} — average error ${comparison[best_model_name]['mae']:.2f}")
 
     # TABS
-    tab1, tab2 = st.tabs(["🏠 Estimate Rent", "📊 Model Performance"])
+    tab1, tab2 = st.tabs(["Estimate rent", "Model performance"])
 
     with tab1:
-        st.markdown("## 🏡 Configure Your Property")
-        st.markdown("Adjust the sliders and dropdowns below to match your property")
+        st.markdown("## Configure your property")
+        st.markdown("Use the details you know. The estimate updates when you calculate.")
 
         st.markdown("")
 
         col1, col2 = st.columns([2, 1])
 
         with col1:
-            st.markdown("### 📐 Property Size & Details")
+            st.markdown("### Property details")
 
             col_a, col_b = st.columns(2)
 
@@ -409,13 +256,13 @@ def main():
 
             st.markdown("")
 
-            if st.button("🔮 CALCULATE RENT ESTIMATE", type="primary", use_container_width=True):
+            if st.button("Calculate weekly rent", type="primary", use_container_width=True):
                 rent_without, rent_with = predict_rent(
                     bedrooms, bathrooms, suburb, property_type, floor_level, flats_in_building
                 )
 
                 st.markdown("---")
-                st.markdown("## 💰 Estimated Weekly Rent")
+                st.markdown("## Estimated weekly rent")
 
                 col1, col2, col3 = st.columns(3)
 
@@ -472,8 +319,8 @@ Floor {floor_level}, {flats_in_building} total flats
             st.markdown('</div>', unsafe_allow_html=True)
 
     with tab2:
-        st.markdown("## 📊 Model Performance Comparison")
-        st.markdown("All models trained on 95,342 rental records with known parking status")
+        st.markdown("## Model performance")
+        st.markdown("A comparison of the trained models used by this estimator.")
 
         results_df = pd.DataFrame(comparison).T.sort_values('mae')
         results_df.index = [n.replace('_', ' ').title() for n in results_df.index]
@@ -498,13 +345,9 @@ Floor {floor_level}, {flats_in_building} total flats
     # Footer
     st.markdown("---")
     st.markdown("""
-        <div style="text-align: center; padding: 2rem;">
-            <p style="font-size: 1.1rem; font-weight: 700; color: #1f2937;">
-                Microburbs Hackathon 2026 • Team Said
-            </p>
-            <p style="color: #6b7280; font-size: 0.95rem;">
-                XGBoost • LightGBM • CatBoost • Random Forest • Gradient Boosting • Neural Network
-            </p>
+        <div class="app-footer">
+            <p><strong>Microburbs Hackathon 2026 — Team Said</strong></p>
+            <p>Built with XGBoost, LightGBM, CatBoost, Random Forest, Gradient Boosting and Neural Network models.</p>
         </div>
     """, unsafe_allow_html=True)
 
