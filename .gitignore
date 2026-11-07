@@ -1,0 +1,48 @@
+# Sensitive information
+.env
+*.key
+*.pem
+*_key.txt
+
+# Python
+*.pyc
+__pycache__/
+*.egg-info/
+*.egg
+dist/
+build/
+.pytest_cache/
+.coverage
+*.log
+venv/
+env/
+
+# MLflow
+mlruns/
+
+# Models (large files)
+saved_models/*.pkl
+saved_models/*.pth
+saved_models/*.joblib
+
+# Data files (large and potentially sensitive)
+data/*.csv
+data/*.zip
+data/*.json
+rents_said.csv
+training.log
+
+# CatBoost
+catboost_info/
+
+# IDE
+.ipynb_checkpoints/
+*.swp
+*.swo
+.DS_Store
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
