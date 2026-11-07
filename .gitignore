@@ -20,12 +20,10 @@ env/
 # MLflow
 mlruns/
 
-# Models (large files)
-saved_models/*.pkl
-saved_models/*.pth
-saved_models/*.joblib
+# Models are tracked with Git LFS - DO NOT exclude them
+# They are needed for Streamlit and FastAPI to work
 
-# Data files (large and potentially sensitive)
+# Data files (large and potentially sensitive - proprietary Microburbs data)
 data/*.csv
 data/*.zip
 data/*.json
@@ -45,4 +43,3 @@ catboost_info/
 
 # OS
 Thumbs.db
-.DS_Store
